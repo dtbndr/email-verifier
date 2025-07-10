@@ -2,3 +2,6 @@
 .vscode/
 vendor/
 covprofile
+
+# gptel conversations
+.gptel_conversations/

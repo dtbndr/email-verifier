@@ -1,0 +1,4 @@
+:baseUrl = http://localhost:8080/v1
+
+# Verify a test email address
+GET :baseUrl/abby@bashwerkz.com/verification
