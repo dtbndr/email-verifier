@@ -1,4 +1,4 @@
 :baseUrl = http://localhost:8080/v1
 
 # Verify a test email address
-GET :baseUrl/sharmita.mandal@gmail.com/verification
+GET :baseUrl/steelmanchris73@outlook.com/verification
