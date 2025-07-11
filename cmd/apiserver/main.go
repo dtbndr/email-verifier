@@ -16,8 +16,19 @@ func GetEmailVerification(w http.ResponseWriter, r *http.Request, ps httprouter.
 	verifier := emailVerifier.NewVerifier().
 		EnableSMTPCheck().
 		HelloName("solventfunding.com").
-		FromEmail("max@solventfunding.com")
+		FromEmail("max@solventfunding.com").
+		ConnectTimeout(30 * time.Second)
+
+	// Enable the API verifier for Yahoo (also covers AOL)
+	if err := verifier.EnableAPIVerifier("yahoo"); err != nil {
+		// This setup is unlikely to fail, but we log it just in case.
+		log.Printf("Warning: Failed to enable Yahoo API verifier: %v", err)
+	}
+
+	log.Println("DEBUG: Before verifier.Verify()")
 	ret, err := verifier.Verify(ps.ByName("email"))
+	log.Println("DEBUG: After verifier.Verify()")
+
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -45,8 +56,8 @@ func main() {
 	server := &http.Server{
 		Addr:         ":8080",
 		Handler:      router,
-		ReadTimeout:  30 * time.Second,
-		WriteTimeout: 30 * time.Second,
+		ReadTimeout:  40 * time.Second,
+		WriteTimeout: 40 * time.Second,
 	}
 
 	log.Fatal(server.ListenAndServe())
