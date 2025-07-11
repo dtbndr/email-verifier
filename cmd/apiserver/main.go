@@ -14,7 +14,9 @@ import (
 
 func GetEmailVerification(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	verifier := emailVerifier.NewVerifier().
-		EnableSMTPCheck()
+		EnableSMTPCheck().
+		HelloName("solventfunding.com").
+		FromEmail("max@solventfunding.com")
 	ret, err := verifier.Verify(ps.ByName("email"))
 	if err != nil {
 		http.Error(w, err.Error(), 500)
